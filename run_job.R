@@ -1,0 +1,78 @@
+library(rtweet)
+library(ggplot2)
+library(glue)
+
+# curve
+point_len <- sample(c( 20, 25, 30, 35,40),1)
+points <- seq_len(point_len)
+halfpoint <- median(points)
+offset_ <- round(rnorm(1)*4)
+noise<- rnorm(n = point_len,mean = halfpoint, sd = sqrt(halfpoint))
+dataset <- data.frame(
+    x = points,
+    y = -(points-halfpoint)^2+offset_+noise
+)
+# titles
+x = sample(
+    c("Arousal", "Time", "Height", "Pressure", "Anything", "Coffee",
+      "Stress", "Religiosity", "Response", "Dose",
+      "Amount of things on the todo list", "Inequality", "Aging",
+      "Female Participation Ratio", "Bro-ness", "Saltiness", "Friends"),
+    1)
+y = sample(
+    c("Animals", "Percentage Poodles", "Flamingos", "Dinosaurs", "Donkeys",
+      "Fun", "Angry Twitter People", "Performance", "Benefits", "Weed",
+      "Job Security", "Happiness","Health", "Death Anxiety","Complexity",
+      "Drug Concentration", "Motivation", "Innovation", "Temperature",
+      "Polution", "Hemline", "Intelligence"),
+    1)
+subtitle="  Who knew?"
+title = glue("  {x} by {y} is an inverted u-shape")
+# color settings
+color_ = sample(c("#c6538c", "d279a6", "#660066", "#5200cc"),1)
+
+
+## authenticate and get token
+token <- create_token(
+    app = "tweetashape",
+    consumer_key = Sys.getenv("apikey"),
+    consumer_secret = Sys.getenv("apisecretkey"),
+    access_token = Sys.getenv("access_token"),
+    access_secret = Sys.getenv("access_token_secret"),
+    set_renv = FALSE
+    )
+
+# plot the plot
+tmp <- tempfile(fileext = ".png")
+p <-
+    ggplot(dataset, aes(x,y))+
+    geom_point(alpha = 1/2)+
+    geom_line(color = color_, size=2.5, alpha = 2/3)+
+    theme_light(base_size = 15 )+
+    labs(
+        title=title,
+        subtitle=subtitle,
+        x= x,
+        y=y,
+        caption="automagically created by @invertedushape1  "
+    )+
+    theme(
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.border = element_blank(),
+        plot.margin = margin(2, 2, 2, 2),
+        plot.background = element_rect(fill = "#ffffe6"),
+        panel.background = element_rect(fill = "#ffffe6"),
+
+    )
+
+ggsave(tmp, plot = p,width = 9, height = 6)
+
+
+post_tweet(status = paste0(title," #invertedushape"),
+           media = tmp,
+           token = token)
