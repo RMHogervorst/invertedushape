@@ -26,11 +26,17 @@ y = sample(
       "Drug Concentration", "Motivation", "Innovation", "Temperature",
       "Polution", "Hemline", "Intelligence"),
     1)
-subtitle="  Who knew?"
+subtitle=sample(c("  Who knew?", "  It is a curve!",
+                  "  Who knew?", "  It is a curve!",
+                  "  Who knew?", "  It is a curve!",
+                  "  It is not as if this is just random data"),1)
 title = glue("  {x} by {y} is an inverted u-shape")
 # color settings
-color_ = sample(c("#c6538c", "d279a6", "#660066", "#5200cc"),1)
-
+color_ = sample(
+    c("#c6538c", "d279a6", "#660066", "#5200cc", "#7300e6",
+      "#c2c2a3"),
+    1)
+background_color= sample(c("#ffffe6","#ffff99",),1)
 
 ## authenticate and get token
 token <- create_token(
@@ -65,8 +71,8 @@ p <-
         panel.grid.minor = element_blank(),
         panel.border = element_blank(),
         plot.margin = margin(2, 2, 2, 2),
-        plot.background = element_rect(fill = "#ffffe6"),
-        panel.background = element_rect(fill = "#ffffe6"),
+        plot.background = element_rect(fill = background_color),
+        panel.background = element_rect(fill = background_color),
 
     )
 
