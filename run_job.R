@@ -33,7 +33,7 @@ subtitle=sample(c("  Who knew?", "  It is a curve!",
 title = glue("  {x} by {y} is an inverted u-shape")
 # color settings
 color_ = sample(
-    c("#c6538c", "d279a6", "#660066", "#5200cc", "#7300e6",
+    c("#c6538c", "#660066", "#5200cc", "#7300e6",
       "#c2c2a3"),
     1)
 background_color= sample(c("#ffffe6","#FFCC99","#fcd928" ),1)

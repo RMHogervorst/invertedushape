@@ -109,6 +109,15 @@ remote:        Default types for buildpack -> console
 heroku addons:create scheduler:standard
 ```
 
+Go to your heroku project to set the schedular or use
+`heroku addons:open scheduler` to let your browser move to the correct window.
+
+I first set the frequency to hourly to see if the tweet bot works hourly. 
+
+I set the job to `Rscript run_job.R` that is right I use the 
+the same incantation as `heroku run {}` 
+
+
 links:
 
 https://github.com/virtualstaticvoid/heroku-buildpack-r
