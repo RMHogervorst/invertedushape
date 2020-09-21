@@ -144,6 +144,5 @@ https://github.com/virtualstaticvoid/heroku-buildpack-r
 
 # Github actions
 
-Add your secrets to github.
-
-Setting up renv and running action
+* Add your secrets to github
+* Modify the .github/workflows/main.yml file

@@ -1,14 +1,8 @@
-# This is a basic workflow to help you get started with Actions
+# This is a basic workflow that only runs on schedule
 
 name: run_job_2
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the main branch
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   schedule:
     - cron: '0 9 * * *'
 
@@ -18,13 +12,14 @@ jobs:
   run_thingy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    # retrieve secrets from github
     env:
         apikey: ${{ secrets.APIKEY}}
         apisecretkey: ${{ secrets.APISECRETKEY}}
         access_token: ${{ secrets.ACCESS_TOKEN}}
         access_token_secret: ${{ secrets.ACCESS_TOKEN_SECRET}}
         RENV_PATHS_ROOT: ~/.local/share/renv
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    #
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -33,7 +28,9 @@ jobs:
         uses: r-lib/actions/setup-r@v1
         with:
           r-version: '4.0.2'
+      # install renv package
       - run: R -e 'install.packages("renv")'
+      # set up cache
       - name: Cache packages
         uses: actions/cache@v1
         with:
@@ -42,6 +39,8 @@ jobs:
            restore-keys: |-
               ${{ runner.os }}-renv-
       - run: sudo apt-get install -y --no-install-recommends libcurl4-openssl-dev
+      # install c++ dependencies and install necessary packages
       - run: R -e 'renv::restore()'
+      # execute Rscript
       - run: Rscript run_job.R
 
