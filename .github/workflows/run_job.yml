@@ -1,7 +1,6 @@
 name: run-job
 on:
   schedule:
-    - branches: main
     - cron: '0 9 * * *'
 
 jobs:
