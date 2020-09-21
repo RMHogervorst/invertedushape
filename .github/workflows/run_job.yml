@@ -23,11 +23,11 @@ jobs:
       with:
          path: ${{ env.RENV_PATHS_ROOT }}
          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
-         restore-keys: |
+         restore-keys: |-
             ${{ runner.os }}-renv-
       - name: Restore packages
         shell: Rscript {0}
-        run: |
+        run: |-
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::restore()
      - name: run-script
