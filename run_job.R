@@ -57,7 +57,8 @@ p <-
                 span=0.6,
                 se=FALSE,
                 position = position_jitter(height=0.05),
-                size=2.5
+                size=2.5,
+                color = color_
                 )+
     theme_light(base_size = 15 )+
     labs(
