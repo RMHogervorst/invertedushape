@@ -1,7 +1,8 @@
 name: run-job
 on:
-  schedule:
+  [schedule, workflow_dispatch]:
     - cron: '0 9 * * *'
+
 
 jobs:
   run-job:
