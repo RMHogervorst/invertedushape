@@ -14,7 +14,7 @@ dataset <- data.frame(
 )
 # titles
 x = sample(
-    c("Arousal", "Time", "Height", "Pressure", "Anything", "Coffee",
+    c("Arousal", "Time", "Height", "Pressure", "Dogpoo", "Coffee",
       "Stress", "Religiosity", "Response", "Dose",
       "Amount of things on the todo list", "Inequality", "Aging",
       "Female Participation Ratio", "Bro-ness", "Saltiness", "Friends"),
@@ -36,7 +36,7 @@ color_ = sample(
     c("#c6538c", "d279a6", "#660066", "#5200cc", "#7300e6",
       "#c2c2a3"),
     1)
-background_color= sample(c("#ffffe6","#ffff99"),1)
+background_color= sample(c("#ffffe6","#FFCC99","#fcd928" ),1)
 
 ## authenticate and get token
 token <- create_token(

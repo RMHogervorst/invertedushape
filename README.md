@@ -79,6 +79,31 @@ variables. I set them locally with .Renviron (in this folder, (don't forget to a
 
 Test if the script runs with `heroku run Rscript run_job.R`
 
+Do only push everything to heroku when you are sure it works because it reinstalls everything at every push but renv will
+use the cache, but it is somewhat slow:
+```
+remote:        Restoring R packages from cache
+remote:        Restoring renv packages from cache
+remote:        Setting up build environment from cache
+remote: -----> Configuring build environment...
+remote: -----> Bootstrapping renv
+remote:        * The library is already synchronized with the lockfile.
+remote: -----> Finalising environment...
+remote: -----> Writing environment to profile
+remote: -----> Caching build outputs
+remote:        Build environment...
+remote:        Done: 499M
+remote:        R packages...
+remote:        Done: 186M
+remote:        renv packages...
+remote:        Done: 960K
+remote: -----> R 4.0.0 installed successfully!
+remote:        Install took 174 seconds to complete
+remote: -----> Discovering process types
+remote:        Procfile declares types     -> (none)
+remote:        Default types for buildpack -> console
+```
+
 
 ```
 heroku addons:create scheduler:standard
