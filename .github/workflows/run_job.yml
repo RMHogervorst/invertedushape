@@ -25,11 +25,11 @@ jobs:
          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
          restore-keys: |-
             ${{ runner.os }}-renv-
-      - name: Restore packages
-        shell: Rscript {0}
-        run: |-
+    - name: Restore packages
+      shell: Rscript {0}
+      run: |-
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
           renv::restore()
-     - name: run-script
-       run: |-
+    - name: run-script
+      run: |-
          Rscript run_job.R
