@@ -1,10 +1,11 @@
-# Running R scripts on heroku
-
-
+# Running an R script on a schedule
 This is a small proof of concept standalone script
 
+* [Running R scripts on heroku](#heroku)
+* [Running R scripts using github-actions](#github-actions)
 
-# Running this script on Heroku
+
+# Heroku
 (See also [my blogpost](https://blog.rmhogervorst.nl/blog/2020/09/21/running-an-r-script-on-a-schedule-heroku/))
 
 It is an update to: https://blog.rmhogervorst.nl/blog/2018/12/06/running-an-r-script-on-heroku/
@@ -141,3 +142,6 @@ links:
 
 https://github.com/virtualstaticvoid/heroku-buildpack-r
 
+# Github actions
+
+Setting up renv and running action
