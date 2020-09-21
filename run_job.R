@@ -2,6 +2,7 @@ library(rtweet)
 library(ggplot2)
 library(glue)
 
+
 # curve
 point_len <- sample(c( 20, 25, 30, 35,40),1)
 points <- seq_len(point_len)
@@ -30,14 +31,14 @@ subtitle=sample(c("  Who knew?", "  It is a curve!",
                   "  Who knew?", "  It is a curve!",
                   "  Who knew?", "  It is a curve!",
                   "  It is not as if this is just random data"),1)
-title = glue("  {x} by {y} is an inverted u-shape")
+title = glue("  {y} by {x} is an inverted u-shape")
 # color settings
 color_ = sample(
     c("#c6538c", "#660066", "#5200cc", "#7300e6",
       "#c2c2a3"),
     1)
-background_color= sample(c("#ffffe6","#FFCC99","#fcd928" ),1)
-
+background_color= sample(c("#ffffe6","#FFCC99" ),1)
+message(glue("using \"{title}\" with foreground: {color_} and background: {background_color}"))
 ## authenticate and get token
 token <- create_token(
     app = "tweetashape",
@@ -52,8 +53,12 @@ token <- create_token(
 tmp <- tempfile(fileext = ".png")
 p <-
     ggplot(dataset, aes(x,y))+
-    geom_point(alpha = 1/2)+
-    geom_line(color = color_, size=2.5, alpha = 2/3)+
+    geom_smooth(method = "loess",formula = 'y~x',
+                span=0.6,
+                se=FALSE,
+                position = position_jitter(height=0.05),
+                size=2.5
+                )+
     theme_light(base_size = 15 )+
     labs(
         title=title,
@@ -73,7 +78,10 @@ p <-
         plot.margin = margin(2, 2, 2, 2),
         plot.background = element_rect(fill = background_color),
         panel.background = element_rect(fill = background_color),
-
+        plot.caption = element_text(face = "italic"),
+        axis.title.x = element_text(hjust = 0.4),
+        axis.title.y = element_text(hjust = 0.4),
+        plot.subtitle = element_text(family = "serif",face="italic")
     )
 
 ggsave(tmp, plot = p,width = 9, height = 6)
