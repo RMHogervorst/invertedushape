@@ -15,10 +15,19 @@ for mac `brew tap heroku/brew && brew install heroku`
 after installation
 `heroku login`
 
-
+Do either:
 `heroku create --buildpack https://github.com/virtualstaticvoid/heroku-buildpack-r.git` in folder 
-I created 
 
+or do `heroku create` and add the buildpack with:
+`heroku buildpacks:set https://github.com/virtualstaticvoid/heroku-buildpack-r.git`
+
+```
+Run git push heroku main to create a new release using this buildpack.
+```
+
+```
+heroku addons:create scheduler:standard
+```
 
 links:
 
