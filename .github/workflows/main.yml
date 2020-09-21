@@ -33,10 +33,6 @@ jobs:
         uses: r-lib/actions/setup-r@v1
         with:
           r-version: '4.0.2'
-      - name: install renv
-        uses: r-lib/actions/setup-r@v1
-        with:
-          r-version: '4.0.2'
       - run: R -e 'install.packages("renv")'
       - name: Cache packages
         uses: actions/cache@v1
@@ -47,8 +43,14 @@ jobs:
               ${{ runner.os }}-renv-
 
       - name: Restore packages
-        run: R -e 'renv::restore()'
+        uses: r-lib/actions/setup-r@v1
+          with:
+            r-version: '4.0.2'
+      - run: R -e 'renv::restore()'
 
       - name: run-script
-        run: Rscript run_job.R
+        uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: '4.0.2'
+      - run: Rscript run_job.R
 
