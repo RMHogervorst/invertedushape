@@ -36,7 +36,7 @@ color_ = sample(
     c("#c6538c", "d279a6", "#660066", "#5200cc", "#7300e6",
       "#c2c2a3"),
     1)
-background_color= sample(c("#ffffe6","#ffff99",),1)
+background_color= sample(c("#ffffe6","#ffff99"),1)
 
 ## authenticate and get token
 token <- create_token(
@@ -82,3 +82,4 @@ ggsave(tmp, plot = p,width = 9, height = 6)
 post_tweet(status = paste0(title," #invertedushape"),
            media = tmp,
            token = token)
+message("Post successful")
