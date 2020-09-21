@@ -16,7 +16,8 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v1
-    - uses: r-lib/actions/setup-r@v1
+    - name: setup-r
+      uses: r-lib/actions/setup-r@v1
       with:
        r-version: '4.0.2'
     - name: Cache packages
