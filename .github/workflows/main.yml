@@ -41,14 +41,6 @@ jobs:
            key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
            restore-keys: |-
               ${{ runner.os }}-renv-
-      - name: Restore packages
-        uses: r-lib/actions/setup-r@v1
-        with:
-          r-version: '4.0.2'
       - run: R -e 'renv::restore()'
-      - name: run-script
-        uses: r-lib/actions/setup-r@v1
-        with:
-          r-version: '4.0.2'
       - run: Rscript run_job.R
 
