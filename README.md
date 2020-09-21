@@ -1,29 +1,50 @@
 # Running R scripts on heroku
 
 
-This is a small proof of concept with steps to see what you need for running a script on heroku. 
-
-I'm using the heroku-buildpack-r by virtualstaticvoid. 
-This is rather convenient, because you can use RENV to tell the 
-buildpack what packages you need and it will install them.
-
-activate renv for your project in Rstudio
-install all packages (if you type `library(rtweet)` in your script the rstudio editor will ask you if you want to install that package and will install it in your local RENV environment)
-
-If you are satisfied with your script, source it and see if it runs successfully, do `renv::snapshot()` to add all the right packages to the snapshot.
+This is a small proof of concept standalone script
 
 
-```
-Heroku is really nice
-but has a lot of hidden configuration that you can miss
-manual steps
-```
-
+# Running this script on Heroku
+(See also [my blogpost](https://blog.rmhogervorst.nl/blog/2020/09/21/running-an-r-script-on-a-schedule-heroku/))
 
 It is an update to: https://blog.rmhogervorst.nl/blog/2018/12/06/running-an-r-script-on-heroku/
 
-https://github.com/RMHogervorst/tweetwikidatadeaths
 
+```
+You save your script locally in a git repository
+You push everything to heroku (a cloud provider, think a laptop in the sky)
+# installation
+heroku installs R and the relevant packages and the script
+heroku saves this state and stops
+# running something
+you can give heroku a command and it will start up and run the script
+this starting up can be done on a timer
+```
+
+What you need:
+
+
+* no fear for using the command line (know where it is and how to navigate is enough)
+* an heroku account (you will need a creditcard, but once a day running is probably free)
+* install the heroku CLI (command line interface)
+* authenticate your CLI by running heroku login
+* a folder with a script that does what you want to do
+* (not necessary, but very useful) renv set up for this project
+
+Heroku doesn't support R officially but other people have created
+addons to make it work. I'm using the heroku-buildpack-r by virtualstaticvoid. 
+This is rather convenient, because you can use RENV to tell the 
+buildpack what packages you need and it will install them.
+
+### Using RENV on your script:
+
+* activate renv for your project in Rstudio
+* install all packages (if you type `library(rtweet)` in your script the rstudio editor will ask you if you want to install that package and will install it in your local RENV environment)
+
+* If you are satisfied with your script, source it and see if it runs successfully, 
+* do `renv::snapshot()` to add all the right packages to the snapshot.
+
+### Setting up heroku
 1. Download and install heroku cli
 https://devcenter.heroku.com/articles/heroku-cli
 
@@ -38,21 +59,16 @@ Do either:
 or do `heroku create` and add the buildpack with:
 `heroku buildpacks:set https://github.com/virtualstaticvoid/heroku-buildpack-r.git`
 
-You need to set up the repo correctly:
+In this previous step you get a name for your project for instance powerful-dusk-49558
 
-use git remote add [ZOEK UIT]
-`heroku git:remote -a powerful-dusk-47428`
+* make sure you connect your repo to heroku (this didn’t happen automatically for me) `heroku git:remote -a powerful-dusk-49558`
 
-```
-set git remote heroku to https://git.heroku.com/powerful-dusk-47428.git
-```
-
-make sure to add the renv/activate script and the lockfile
+* make sure to add the renv/activate script and the lockfile to your git repo
 
 `git add renv/activate.R`
 `git add renv.lock`
 
-git push (will fail if no buildpack script (app, renv/))
+* git push 
 `git push heroku master`
 
 The terminal shows all the installs of the buildback
@@ -61,11 +77,12 @@ remote: -----> R (renv) app detected
 remote: -----> Installing R
 remote:        Version 4.0.0 will be installed.
 remote: -----> Downloading buildpack archives from AWS S3
-....
+..etc..
 ```
 
 it is installing all the stuff. 
 
+### Environmental variables
 I went into the heroku website of my project and manually
 set the config vars <https://devcenter.heroku.com/articles/config-vars>
 
@@ -80,7 +97,7 @@ variables. I set them locally with .Renviron (in this folder, (don't forget to a
 Test if the script runs with `heroku run Rscript run_job.R`
 
 Do only push everything to heroku when you are sure it works because it reinstalls everything at every push but renv will
-use the cache, but it is somewhat slow:
+use the cache, but it is somewhat slow (several minutes for me):
 ```
 remote:        Restoring R packages from cache
 remote:        Restoring renv packages from cache
@@ -105,19 +122,22 @@ remote:        Default types for buildpack -> console
 ```
 
 
+### Adding the scheduler
 ```
 heroku addons:create scheduler:standard
 ```
 
-Go to your heroku project to set the schedular or use
+Go to your heroku project to set the scheduler or use
 `heroku addons:open scheduler` to let your browser move to the correct window.
 
 I first set the frequency to hourly to see if the tweet bot works hourly. 
 
-I set the job to `Rscript run_job.R` that is right I use the 
-the same incantation as `heroku run {}` 
+I set the job to `Rscript run_job.R` 
+
+*that is right I use the the same incantation as `heroku run {}`*
 
 
 links:
 
 https://github.com/virtualstaticvoid/heroku-buildpack-r
+
