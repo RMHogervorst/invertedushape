@@ -12,6 +12,6 @@ run:
   image: rocker/r-ver:latest
   script:
       - R -e 'install.packages("renv")'
-      - sudo apt-get install -y --no-install-recommends libcurl4-openssl-dev
+      - apt-get install -y --no-install-recommends libcurl4-openssl-dev
       - R -e 'renv::restore()'
       - Rscript run_job.R
