@@ -1,0 +1,17 @@
+# A workflow for gitlab ci
+variables:
+    apikey: $apikey
+    apisecretkey: $apisecretkey
+    access_token: $access_token
+    access_token_secret: $access_token_secret    
+
+# setup steps
+run:
+  tags:
+      - docker
+  image: rocker/r-ver:latest
+  script:
+      - R -e 'install.packages("renv")'
+      - sudo apt-get install -y --no-install-recommends libcurl4-openssl-dev
+      - R -e 'renv::restore()'
+      - Rscript run_job.R
