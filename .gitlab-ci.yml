@@ -1,17 +1,30 @@
 # A workflow for gitlab ci
 variables:
-    apikey: $apikey
-    apisecretkey: $apisecretkey
-    access_token: $access_token
-    access_token_secret: $access_token_secret    
+  APT_PKGS: "libcurl4-openssl-dev libssl-dev libxt6"
+  #RENV_CONFIG_REPOS_OVERRIDE: "http://cran.r-project.org"
+  RENV_PATHS_CACHE: ${CI_PROJECT_DIR}/cache
+  RENV_PATHS_LIBRARY: ${CI_PROJECT_DIR}/renv/library
+
+
+cache:
+  key: ${CI_JOB_NAME}
+  paths:
+    - ${RENV_PATHS_CACHE}
+    - ${RENV_PATHS_LIBRARY}
+
+before_script:
+  - apt-get update
+  - apt-get install -y --no-install-recommends ${APT_PKGS}
+  - export PATH="/usr/local/lib/R/site-library/littler/examples/:${PATH}"
+  - echo "options(Ncpus = $(nproc --all))" >> /usr/local/lib/R/etc/Rprofile.site
+  - R -e  'install.packages(c("ggplot2","rtweet"))'
+  - mkdir -p ~/.local/share/renv
+  - R -e 'renv::restore()'
 
 # setup steps
 run:
   tags:
       - docker
-  image: rocker/r-ver:latest
+  image: rocker/r-ver:4.0.2
   script:
-      - R -e 'install.packages("renv")'
-      - apt-get install -y --no-install-recommends libcurl4-openssl-dev
-      - R -e 'renv::restore()'
       - Rscript run_job.R

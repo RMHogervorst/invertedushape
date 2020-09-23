@@ -51,6 +51,7 @@ token <- create_token(
 
 # plot the plot
 tmp <- tempfile(fileext = ".png")
+
 p <-
     ggplot(dataset, aes(x,y))+
     geom_smooth(method = "loess",formula = 'y~x',
@@ -85,7 +86,7 @@ p <-
         plot.subtitle = element_text(family = "serif",face="italic")
     )
 
-ggsave(tmp, plot = p,width = 9, height = 6)
+ggsave(tmp, plot = p,width = 9, height = 6,)
 
 
 post_tweet(status = paste0(title," #invertedushape"),
