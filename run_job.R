@@ -2,6 +2,20 @@ library(rtweet)
 library(ggplot2)
 library(glue)
 
+# fail on missing env vars
+missing_env <- function(key){
+  result <- is.na(Sys.getenv(key,unset = NA_character_))
+  if(result) warning(paste0("Missing env var: ",key))
+  result
+}
+
+if(any(
+  missing_env('apikey'),
+  missing_env("apisecretkey"),
+  missing_env("access_token"),
+  missing_env("access_token_secret")
+)) stop("credentials not found")
+
 
 # curve
 point_len <- sample(c( 20, 25, 30, 35,40),1)
@@ -88,8 +102,12 @@ p <-
 
 ggsave(tmp, plot = p,width = 9, height = 6,)
 
-
-post_tweet(status = paste0(title," #invertedushape"),
+# added a location to tweetbot too.
+post_tweet(status = paste0(title,
+                           " #invertedushape",
+                           " This post came from: ",
+                           Sys.getenv("LOCATION")
+                           ),
            media = tmp,
            token = token)
 message("Post successful")
