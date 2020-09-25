@@ -146,3 +146,8 @@ https://github.com/virtualstaticvoid/heroku-buildpack-r
 
 * Add your secrets to github
 * Modify the .github/workflows/main.yml file
+
+# using gitlab
+
+* Add your secrets to settings/ci cd /variables
+* Modify the .gitlab-ci.yml file to your liking
