@@ -3,12 +3,15 @@ This is a small proof of concept standalone script
 
 * [Running R scripts on heroku](#heroku)
 * [Running R scripts using github-actions](#github-actions)
+* [Running R scripts using gitlab runner](#using-gitlab)
+
+There is also a Docker version here: <https://github.com/RMHogervorst/dockerize_script>
 
 
 # Heroku
 (See also [my blogpost](https://blog.rmhogervorst.nl/blog/2020/09/21/running-an-r-script-on-a-schedule-heroku/))
 
-It is an update to: https://blog.rmhogervorst.nl/blog/2018/12/06/running-an-r-script-on-heroku/
+It is an update to: https://blog.rmhogervorst.nl/blog/2018/12/06/running-an-r-script-on-heroku
 
 
 ```
