@@ -101,13 +101,3 @@ p <-
     )
 
 ggsave(tmp, plot = p,width = 9, height = 6,)
-
-# added a location to tweetbot too.
-post_tweet(status = paste0(title,
-                           " #invertedushape",
-                           " This post came from: ",
-                           Sys.getenv("LOCATION")
-                           ),
-           media = tmp,
-           token = token)
-message("Post successful")
